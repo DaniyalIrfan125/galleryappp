@@ -66,27 +66,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     //separating lists on the basis of folder names
     private fun separateFolderFiles(list: List<GenericVideosAndImagesModel>) {
-        val hashmap = HashMap<String, ArrayList<GenericVideosAndImagesModel>>()
+        if (list.isNotEmpty()) {
+            val hashmap = HashMap<String, ArrayList<GenericVideosAndImagesModel>>()
 
-        //adding separatey all images and all videos as per requirement
-        hashmap["All Images"] =
-            ArrayList(list.filter { s -> s.dataType == AppConstants.DataType.IMAGE })
-        hashmap["All Videos"] =
-            ArrayList(list.filter { s -> s.dataType == AppConstants.DataType.VIDEO })
+            //adding separately all images and all videos as per requirement
+            hashmap["All Images"] =
+                ArrayList(list.filter { s -> s.dataType == AppConstants.DataType.IMAGE })
+            hashmap["All Videos"] =
+                ArrayList(list.filter { s -> s.dataType == AppConstants.DataType.VIDEO })
 
-        list.forEach {
-            if (hashmap.containsKey(it.FolderName)) {
-                hashmap[it.FolderName!!]?.add(it)
-            } else {
-                val arrayList = ArrayList<GenericVideosAndImagesModel>()
-                arrayList.add(it)
-                hashmap[it.FolderName!!] = arrayList
+            list.forEach {
+                if (hashmap.containsKey(it.FolderName)) {
+                    hashmap[it.FolderName!!]?.add(it)
+                } else {
+                    val arrayList = ArrayList<GenericVideosAndImagesModel>()
+                    arrayList.add(it)
+                    hashmap[it.FolderName!!] = arrayList
+                }
+
+
             }
 
-
+            allVideosAndImages_.value = hashmap
         }
-
-        allVideosAndImages_.value = hashmap
 
     }
 

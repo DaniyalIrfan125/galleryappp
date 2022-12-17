@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.danialz.avrioc.AppConstants
 import com.danialz.avrioc.R
 import com.danialz.avrioc.data.GenericVideosAndImagesModel
 import com.danialz.avrioc.databinding.ItemGalleryBinding
@@ -50,33 +51,12 @@ class MainFragmentRecyclerAdapter(
         fun bind(position: Int) {
 
             val keys = hashMap.keys.toList()
-            binding.count.text = hashMap[keys[position]]!!.size.toString()
+            binding.count.text = "(" + hashMap[keys[position]]!!.size.toString() + ")"
             binding.folderName.text = keys[position]
 
-            Glide.with(context).load(hashMap[keys[position]]!![0].uri)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
 
-
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-
-                        return false
-                    }
-                }).centerCrop() .into(binding.image)
+            Glide.with(context).load(hashMap[keys[position]]!![0].uri).centerCrop()
+                .into(binding.image)
 
 
             binding.constraintMainItem.setOnClickListener {

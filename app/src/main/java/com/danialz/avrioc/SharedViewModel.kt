@@ -11,4 +11,5 @@ class SharedViewModel : ViewModel() {
     var arrayListOfGenericData = MutableLiveData<ArrayList<GenericVideosAndImagesModel>>()
     var imageViewUri = MutableLiveData<Uri>()
 
+
 }

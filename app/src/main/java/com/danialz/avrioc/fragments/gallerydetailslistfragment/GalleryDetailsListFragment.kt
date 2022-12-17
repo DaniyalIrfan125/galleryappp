@@ -40,11 +40,13 @@ class GalleryDetailsListFragment : Fragment() {
 
     }
 
+    // observing data from fragments
     private fun observingDataFromFragment() {
         sharedViewModel.arrayListOfGenericData.observe(viewLifecycleOwner) {
             it?.let {
                 recyclerGallery.adapter = GalleryDetailsListRecyclerAdapter(requireContext(), it) {
 
+                    // if data type video then open through intent else navigate to show image fragment
                         if (it.dataType == AppConstants.DataType.VIDEO) {
                             playVideo(it.uri!!)
                         } else {
@@ -59,6 +61,7 @@ class GalleryDetailsListFragment : Fragment() {
     }
 
 
+    //function to open video through intent
     private fun playVideo(pathStr: Uri) {
         val intent = Intent(
             Intent.ACTION_VIEW,
