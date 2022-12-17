@@ -2,13 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/mainFragment"
-    android:id="@+id/main_navigation">
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.danialz.avrioc.fragments.mainfragment.MainFragment"
         android:label="first_fragment"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/main_fragment">
+        <action
+            android:id="@+id/action_mainFragment_to_galleryDetailsListFragment"
+            app:destination="@id/galleryDetailsListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/galleryDetailsListFragment"
+        android:name="com.danialz.avrioc.fragments.gallerydetailslistfragment.GalleryDetailsListFragment"
+        android:label="gallery_details_list_fragment"
+        tools:layout="@layout/gallery_details_list_fragment" />
 
 </navigation>
