@@ -19,6 +19,15 @@
         android:id="@+id/galleryDetailsListFragment"
         android:name="com.danialz.avrioc.fragments.gallerydetailslistfragment.GalleryDetailsListFragment"
         android:label="gallery_details_list_fragment"
-        tools:layout="@layout/gallery_details_list_fragment" />
+        tools:layout="@layout/gallery_details_list_fragment" >
+        <action
+            android:id="@+id/action_galleryDetailsListFragment_to_showImageFragment"
+            app:destination="@id/showImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showImageFragment"
+        android:name="com.danialz.avrioc.fragments.showimagefragment.ShowImageFragment"
+        android:label="show_image_fragment"
+        tools:layout="@layout/show_image_fragment" />
 
 </navigation>

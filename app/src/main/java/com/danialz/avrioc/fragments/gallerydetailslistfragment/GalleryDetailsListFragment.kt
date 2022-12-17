@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.danialz.avrioc.AppConstants
 import com.danialz.avrioc.R
 import com.danialz.avrioc.SharedViewModel
 import com.danialz.avrioc.fragments.gallerydetailslistfragment.adapter.GalleryDetailsListRecyclerAdapter
@@ -41,15 +43,20 @@ class GalleryDetailsListFragment : Fragment() {
     private fun observingDataFromFragment() {
         sharedViewModel.arrayListOfGenericData.observe(viewLifecycleOwner) {
             it?.let {
-                recyclerGallery.adapter = GalleryDetailsListRecyclerAdapter(requireContext(), it,{
-                    it?.let {
-                        playVideo(it.uri!!)
-                    }
-                })
+                recyclerGallery.adapter = GalleryDetailsListRecyclerAdapter(requireContext(), it) {
+
+                        if (it.dataType == AppConstants.DataType.VIDEO) {
+                            playVideo(it.uri!!)
+                        } else {
+                            sharedViewModel.imageViewUri.value = it.uri
+                            findNavController().navigate(R.id.action_galleryDetailsListFragment_to_showImageFragment)
+                        }
+
+
+                }
             }
         }
     }
-
 
 
     private fun playVideo(pathStr: Uri) {

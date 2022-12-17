@@ -48,29 +48,36 @@ class MainFragment : Fragment() {
         getRunTimePermissions()
     }
 
-    private fun getRunTimePermissions() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.main_fragment, container, false)
+    }
 
-        //runtime permission to get data so need to ask READ_EXTERNAL_STORAGE permission for SDK, less than android 10. and for
-        // sdk > 10 read external storage permission not needed
-//
-//        Dexter.withContext(requireContext())
-//            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-//            .withListener(object : PermissionListener {
-//                override fun onPermissionGranted(response: PermissionGrantedResponse) {
-//
-//                    Toast.makeText(requireContext(),"Permission granted",Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onPermissionDenied(response: PermissionDeniedResponse) {
-//                    Toast.makeText(requireContext(),"Permission Denied",Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onPermissionRationaleShouldBeShown(
-//                    permission: PermissionRequest?,
-//                    token: PermissionToken?
-//                ) {
-//                }
-//            }).check()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+
+        viewModel.allVideosAndImages.observe(viewLifecycleOwner) {
+            it?.let {
+
+                recyclerGallery.adapter = MainFragmentRecyclerAdapter(requireContext(), it) {
+                    it.let {
+                        sharedViewModel.arrayListOfGenericData.value = it
+                        findNavController().navigate(R.id.action_mainFragment_to_galleryDetailsListFragment)
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    //method to get runtime permissions
+    private fun getRunTimePermissions() {
 
         Dexter.withContext(requireContext())
             .withPermissions(
@@ -93,38 +100,6 @@ class MainFragment : Fragment() {
             }).check()
 
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.main_fragment, container, false)
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
-
-
-        viewModel.allVideosAndImages.observe(viewLifecycleOwner) {
-            it?.let {
-
-                recyclerGallery.adapter = MainFragmentRecyclerAdapter(requireContext(), it) {
-                    it.let {
-                        sharedViewModel.arrayListOfGenericData.value = it
-                        findNavController().navigate(R.id.action_mainFragment_to_galleryDetailsListFragment)
-                    }
-                }
-
-                Toast.makeText(requireContext(), "data came", Toast.LENGTH_SHORT).show()
-                Log.d("value", it.toString())
-            }
-        }
-    }
-
 
 
 

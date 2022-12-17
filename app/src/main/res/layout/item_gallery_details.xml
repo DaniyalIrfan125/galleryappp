@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/relativeMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/relativeMain"
+        android:background="#883D3E3D"
         android:layout_margin="2dp">
 
 
@@ -19,12 +20,13 @@
 
         <ImageView
             android:id="@+id/imgVideoType"
-            android:layout_width="30dp"
-            android:visibility="gone"
-            android:src="@drawable/img_playbtn"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_centerInParent="true"
-            android:layout_marginStart="16dp" />
+            android:layout_marginStart="16dp"
+            android:src="@drawable/img_playbtn"
+            android:visibility="gone" />
+
 
 
     </RelativeLayout>

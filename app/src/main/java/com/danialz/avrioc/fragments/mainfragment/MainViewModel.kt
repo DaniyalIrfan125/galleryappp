@@ -32,10 +32,12 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
+
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val allVideosAndImages_ = MutableLiveData<HashMap<String,ArrayList<GenericVideosAndImagesModel>>>()
-    val allVideosAndImages: LiveData<HashMap<String,ArrayList<GenericVideosAndImagesModel>>>
+    private val allVideosAndImages_ =
+        MutableLiveData<HashMap<String, ArrayList<GenericVideosAndImagesModel>>>()
+    val allVideosAndImages: LiveData<HashMap<String, ArrayList<GenericVideosAndImagesModel>>>
         get() = allVideosAndImages_
 
 
@@ -55,7 +57,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 .flowOn(Dispatchers.IO)
                 .collect {
-                    //once after collecting data then seaprating method is called
+                    //once after collecting data then seprating method is called
                     separateFolderFiles(it)
                 }
         }
@@ -66,14 +68,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private fun separateFolderFiles(list: List<GenericVideosAndImagesModel>) {
         val hashmap = HashMap<String, ArrayList<GenericVideosAndImagesModel>>()
 
+        //adding separatey all images and all videos as per requirement
+        hashmap["All Images"] =
+            ArrayList(list.filter { s -> s.dataType == AppConstants.DataType.IMAGE })
+        hashmap["All Videos"] =
+            ArrayList(list.filter { s -> s.dataType == AppConstants.DataType.VIDEO })
+
         list.forEach {
             if (hashmap.containsKey(it.FolderName)) {
                 hashmap[it.FolderName!!]?.add(it)
             } else {
-                val arrayList = java.util.ArrayList<GenericVideosAndImagesModel>()
+                val arrayList = ArrayList<GenericVideosAndImagesModel>()
                 arrayList.add(it)
                 hashmap[it.FolderName!!] = arrayList
             }
+
+
         }
 
         allVideosAndImages_.value = hashmap
@@ -125,10 +135,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE)
 
 
-                Log.i("TAG", "Found ${cursor.count} images")
+                Log.i(TAG, "Found ${cursor.count} videos")
                 while (cursor.moveToNext()) {
 
-                    // Here we'll use the column indexs that we found above.
+                    // Here we'll use the column indexes that we found above.
                     val id = cursor.getLong(idColumn)
                     val dateModified =
                         Date(TimeUnit.SECONDS.toMillis(cursor.getLong(dateModifiedColumn)))
@@ -160,12 +170,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
                     // For debugging, we'll output the image objects we create to logcat.
-                    Log.v("TAG", "Added video: $videoModel")
+                    Log.v(TAG, "Added video: $videoModel")
                 }
             }
         }
 
-        Log.v("TAG", "Found ${videosWithFolderList.size} videos")
+        Log.v(TAG, "Found ${videosWithFolderList.size} videos")
         return flow { emit(videosWithFolderList) }
     }
 
@@ -209,7 +219,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
 
 
-                Log.i("TAG", "Found ${cursor.count} images")
+                Log.i(TAG, "Found ${cursor.count} images")
                 while (cursor.moveToNext()) {
 
                     // Here we'll use the column indexs that we found above.
@@ -244,7 +254,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        Log.v("TAG", "Found ${imagesList.size} images")
+        Log.v(TAG, "Found ${imagesList.size} images")
         return flow { emit(imagesList) }
     }
 
@@ -258,3 +268,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
 }
+
+private const val TAG = "MainActivityViewModel"
