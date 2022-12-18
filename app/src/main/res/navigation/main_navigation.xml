@@ -12,17 +12,25 @@
         tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_mainFragment_to_galleryDetailsListFragment"
-            app:destination="@id/galleryDetailsListFragment" />
+            app:destination="@id/galleryDetailsListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
 
     <fragment
         android:id="@+id/galleryDetailsListFragment"
         android:name="com.danialz.avrioc.fragments.gallerydetailslistfragment.GalleryDetailsListFragment"
         android:label="gallery_details_list_fragment"
-        tools:layout="@layout/gallery_details_list_fragment" >
+        tools:layout="@layout/gallery_details_list_fragment">
         <action
             android:id="@+id/action_galleryDetailsListFragment_to_showImageFragment"
-            app:destination="@id/showImageFragment" />
+            app:destination="@id/showImageFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/showImageFragment"
