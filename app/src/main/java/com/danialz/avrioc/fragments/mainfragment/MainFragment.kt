@@ -63,6 +63,13 @@ class MainFragment : Fragment() {
                         }
                     }
                 }
+
+                else{
+                    shimmerMain.visibility = View.GONE
+                    recyclerGallery.visibility = View.VISIBLE
+                    btnFetchData.visibility = View.VISIBLE
+                    Toast.makeText(requireContext(),"No Data Found",Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

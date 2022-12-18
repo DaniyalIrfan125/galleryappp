@@ -66,8 +66,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     //separating lists on the basis of folder names
     private fun separateFolderFiles(list: List<GenericVideosAndImagesModel>) {
+        val hashmap = HashMap<String, ArrayList<GenericVideosAndImagesModel>>()
+
         if (list.isNotEmpty()) {
-            val hashmap = HashMap<String, ArrayList<GenericVideosAndImagesModel>>()
 
             //adding separately all images and all videos as per requirement
             hashmap["All Images"] =
@@ -84,12 +85,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     hashmap[it.FolderName!!] = arrayList
                 }
 
-
             }
 
-            allVideosAndImages_.value = hashmap
         }
 
+        allVideosAndImages_.value = hashmap
     }
 
     //fetching videos
@@ -107,28 +107,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 MediaStore.Video.Media.SIZE
             )
 
-            val selection = "${MediaStore.Video.Media.DATE_ADDED} >= ?"
-
-            val selectionArgs = arrayOf(
-                // Release day of the G1. :)
-                dateToTimestamp(day = 22, month = 10, year = 2008).toString()
-            )
-
-
-            // Display videos in alphabetical order based on their display name.
-            val sortOrder = "${MediaStore.Video.Media.DISPLAY_NAME} ASC"
+            val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
 
             getApplication<Application>().contentResolver.query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 projection,
-                selection,
-                selectionArgs,
+                null,
+                null,
                 sortOrder
             )?.use { cursor ->
 
-                val dateModifiedColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_ADDED)
-                // Cache column indices.
+
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
                 val nameColumn =
                     cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)
@@ -142,8 +131,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                     // Here we'll use the column indexes that we found above.
                     val id = cursor.getLong(idColumn)
-                    val dateModified =
-                        Date(TimeUnit.SECONDS.toMillis(cursor.getLong(dateModifiedColumn)))
                     val displayName = cursor.getString(nameColumn)
                     val duration = cursor.getInt(durationColumn)
                     val size = cursor.getInt(sizeColumn)
@@ -195,22 +182,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             )
 
 
-            val selection = "${MediaStore.Images.Media.DATE_ADDED} >= ?"
-
-
-            val selectionArgs = arrayOf(
-                // Release day of the G1. :)
-                dateToTimestamp(day = 22, month = 10, year = 2008).toString()
-            )
-
-
             val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
 
             getApplication<Application>().contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 projection,
-                selection,
-                selectionArgs,
+                null,
+                null,
                 sortOrder
             )?.use { cursor ->
 
@@ -256,14 +234,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         Log.v(TAG, "Found ${imagesList.size} images")
         return flow { emit(imagesList) }
     }
-
-
-    @Suppress("SameParameterValue")
-    @SuppressLint("SimpleDateFormat")
-    private fun dateToTimestamp(day: Int, month: Int, year: Int): Long =
-        SimpleDateFormat("dd.MM.yyyy").let { formatter ->
-            TimeUnit.MICROSECONDS.toSeconds(formatter.parse("$day.$month.$year")?.time ?: 0)
-        }
 
 
 }
