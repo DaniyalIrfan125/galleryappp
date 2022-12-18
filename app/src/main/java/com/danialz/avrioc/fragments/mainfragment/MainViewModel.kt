@@ -1,11 +1,7 @@
 package com.danialz.avrioc.fragments.mainfragment
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.content.ContentProvider
-import android.content.ContentResolver
 import android.content.ContentUris
-import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
@@ -13,12 +9,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.danialz.avrioc.AppConstants
-import com.danialz.avrioc.R
 import com.danialz.avrioc.data.GenericVideosAndImagesModel
-import com.danialz.avrioc.fragments.mainfragment.adapter.MainFragmentRecyclerAdapter
-import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,11 +18,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {

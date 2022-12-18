@@ -2,19 +2,18 @@ package com.danialz.avrioc.fragments.gallerydetailslistfragment
 
 import android.content.Intent
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.danialz.avrioc.AppConstants
 import com.danialz.avrioc.R
 import com.danialz.avrioc.SharedViewModel
 import com.danialz.avrioc.fragments.gallerydetailslistfragment.adapter.GalleryDetailsListRecyclerAdapter
-import com.danialz.avrioc.fragments.mainfragment.MainViewModel
 import kotlinx.android.synthetic.main.gallery_details_list_fragment.*
 
 class GalleryDetailsListFragment : Fragment() {
