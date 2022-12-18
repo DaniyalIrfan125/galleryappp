@@ -1,6 +1,7 @@
 package com.danialz.avrioc.fragments.mainfragment
 
 import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -67,19 +68,29 @@ class MainFragment : Fragment() {
     }
 
     private fun implementingClickListener() {
+        //permissions are different for 33 and above and less than 33
         btnFetchData.setOnClickListener {
-            getRunTimePermissions()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getRunTimePermissions(
+                    listOf(
+                        Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.READ_MEDIA_VIDEO
+                    )
+                )
+            } else {
+                getRunTimePermissions(listOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+            }
+
         }
     }
 
 
     //method to get runtime permissions
-    private fun getRunTimePermissions() {
+    private fun getRunTimePermissions(listOfPermissions: List<String>) {
 
         Dexter.withContext(requireContext())
             .withPermissions(
-                Manifest.permission.READ_MEDIA_IMAGES,
-                Manifest.permission.READ_MEDIA_VIDEO
+                listOfPermissions
             ).withListener(object : MultiplePermissionsListener {
 
                 override fun onPermissionsChecked(report: MultiplePermissionsReport) {

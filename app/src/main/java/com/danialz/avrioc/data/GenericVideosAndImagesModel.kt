@@ -9,6 +9,5 @@ data class GenericVideosAndImagesModel(
     val videoDuration: Int? = null,
     val videoSize: Int? = null,
     var filePath: String? = null,
-    var FolderName: String? = null,
-    var numberOfFiles: Int = 0
+    var FolderName: String? = null
 )

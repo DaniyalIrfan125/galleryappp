@@ -215,8 +215,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             )?.use { cursor ->
 
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                val dateModifiedColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
                 val displayNameColumn =
                     cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
 
@@ -226,8 +224,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                     // Here we'll use the column indexs that we found above.
                     val id = cursor.getLong(idColumn)
-                    val dateModified =
-                        Date(TimeUnit.SECONDS.toMillis(cursor.getLong(dateModifiedColumn)))
+
                     val displayName = cursor.getString(displayNameColumn)
 
                     val bucketName =
